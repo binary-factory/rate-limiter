@@ -1,0 +1,7 @@
+--compilers ts-node/register
+--require source-map-support/register
+--require chai/register-should
+--require test/common
+--full-trace
+--bail
+src/**/*.spec.ts

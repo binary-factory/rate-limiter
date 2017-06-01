@@ -1,0 +1,74 @@
+{
+  "name": "@binary-facory/rate-limiter",
+  "version": "0.0.1",
+  "main": "build/src/index.js",
+  "typings": "build/src/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "npm run lint && nyc npm run unit",
+    "unit": "mocha",
+    "lint": "tslint './src/**/*.ts'",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "release": "npm run build && standard-verion"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "build",
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "json",
+      "lcov",
+      "html"
+    ],
+    "all": true
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Oliver Haase",
+    "email": "oliver.koeln@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binary-factory/rate-limiter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/binary-factory/rate-limiter/issues"
+  },
+  "tags": [
+    "rate",
+    "limiter",
+    "annotation",
+    "typescript",
+    "tsc",
+    "tsc-rate-limit"
+  ],
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "~6.0.73",
+    "@types/sinon-chai": "^2.7.27",
+    "chai": "^4.0.0",
+    "coveralls": "^2.13.1",
+    "mocha": "^3.4.2",
+    "nyc": "^10.3.2",
+    "sinon": "^2.3.2",
+    "sinon-chai": "^2.10.0",
+    "ts-node": "^3.0.4",
+    "tslint": "^5.3.2",
+    "typescript": "^2.3.3"
+  },
+  "dependencies": {
+  }
+}
