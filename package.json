@@ -70,5 +70,6 @@
     "typescript": "^2.3.3"
   },
   "dependencies": {
+    "reflect-metadata": "^0.1.10"
   }
 }
