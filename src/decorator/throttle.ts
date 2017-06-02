@@ -1,23 +1,31 @@
-import { ChannelRepository } from '../ChannelRepository';
-import { Task } from '../Task';
-import { ThrottleOptions } from './ThrottleOptions';
+import { ChannelRepository } from '../channel/ChannelRepository';
+import { Task } from '../channel/Task';
+import { ChannelNotFoundError } from './ChannelNotFoundError';
+import { defaultThrottleOptions, ThrottleOptions } from './ThrottleOptions';
 
-export function throttle(payOptions: ThrottleOptions) {
+export function throttle(options: ThrottleOptions | string) {
+    let optionsObject: ThrottleOptions;
+    if (typeof options === 'string') {
+        optionsObject = { channel: options };
+    } else {
+        optionsObject = options;
+    }
+    let mergedOptions = Object.assign(defaultThrottleOptions, optionsObject);
+
     return (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<any>>) => {
         const originalMethod = descriptor.value;
 
-        descriptor.value = function (...args: any[]) {
-            // Get channel.
-            let channel = ChannelRepository.instance.channels.get(payOptions.channel);
+        descriptor.value = async function (...args: any[]) {
+            let channel = ChannelRepository.instance.channels.get(mergedOptions.channel);
             if (!channel) {
-                return Promise.reject('channel not found!');
+                throw new ChannelNotFoundError(`Channel '${mergedOptions.channel}' not found!`);
             }
 
             let task: Task = {
                 func: function () {
                     return originalMethod.apply(this, args);
                 },
-                options: payOptions
+                options: mergedOptions
             };
 
             return channel.enqueueTask(task);

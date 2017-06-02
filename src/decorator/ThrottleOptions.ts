@@ -1,5 +1,11 @@
 export interface ThrottleOptions {
     channel: string;
-    fee: number;
-    ttl: number;
+    cost?: number;
+    ttl?: number;
 }
+
+export const defaultThrottleOptions: ThrottleOptions = {
+    channel: '',
+    cost: 1,
+    ttl: 0
+};
