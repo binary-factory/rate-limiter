@@ -10,7 +10,7 @@ export class TokenBucket {
     private interval: number;
 
     /** The current amount of money on the bank. */
-    private money: number = 10;
+    private money: number = 9;
 
     /** The Date of the last payday. */
     private lastPayed: Date = new Date();
@@ -63,8 +63,7 @@ export class TokenBucket {
         return true;
     }
 
-    waitTime(fee: number) {
-        this.earn();
-        return (fee - this.money) * (1 / this.hourlyWage);
+    get tokens() {
+        return this.money;
     }
 }

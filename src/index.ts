@@ -15,11 +15,11 @@ class A {
 
     @throttle({
         channel: 'test',
-        fee: 8,
+        fee: 0,
         ttl: 100000
     })
     static test2(a: string) {
-        return Promise.resolve('yes');
+        return Promise.resolve('yeffffs');
     }
 }
 
@@ -30,11 +30,12 @@ let channel = new Channel({
 });
 ChannelRepository.instance.channels.set('test', channel);
 
-A.test2('').then((a) => console.log(a)).catch((ex) => {
-    console.log(ex);
-});
+
 for (let i = 0; i < 6; i++) {
     A.test('').then((a) => console.log(a)).catch((ex) => {
         console.log(ex);
     });
 }
+A.test2('').then((a) => console.log(a)).catch((ex) => {
+    console.log(ex);
+});
