@@ -1,8 +1,8 @@
 import { ChannelRepository } from '../ChannelRepository';
 import { Task } from '../Task';
-import { PayOptions } from './PayOptions';
+import { ThrottleOptions } from './ThrottleOptions';
 
-export function pay(payOptions: PayOptions) {
+export function throttle(payOptions: ThrottleOptions) {
     return (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<any>>) => {
         const originalMethod = descriptor.value;
 

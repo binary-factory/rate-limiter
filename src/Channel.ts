@@ -13,6 +13,7 @@ export class Channel {
     }
 
     async enqueueTask(task: Task) {
+
         if (!this.tokenBucket.pay(task.options.fee)) {
             let totalFee = task.options.fee;
             for (let key of this.tasks.keys()) {

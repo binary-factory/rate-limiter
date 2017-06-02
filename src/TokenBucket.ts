@@ -45,7 +45,7 @@ export class TokenBucket {
         }
 
         if (fee > this.bankLimit) {
-            throw new Error('cant never pay this tho!');
+            throw new Error('cant never throttle this tho!');
         }
 
         // Payday!

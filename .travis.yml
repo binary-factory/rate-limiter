@@ -3,5 +3,5 @@ node_js:
   - "node"
   - "7"
   - "6"
-cache: yarn
+before_install: if [[ `npm -v` != 5* ]]; then npm i -g npm@5; fi
 after_success: npm run coverage

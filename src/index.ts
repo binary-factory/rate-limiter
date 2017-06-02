@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Channel } from './Channel';
 import { ChannelRepository } from './ChannelRepository';
-import { pay } from './decorator/pay';
+import { throttle } from './decorator/throttle';
 
 class A {
-    @pay({
+    @throttle({
         channel: 'test',
         fee: 10,
         ttl: 100000
@@ -13,7 +13,7 @@ class A {
         return Promise.resolve('yes');
     }
 
-    @pay({
+    @throttle({
         channel: 'test',
         fee: 8,
         ttl: 100000
