@@ -42,7 +42,7 @@ export class Channel {
                 this.tasks.set(task, timeout);
             });
 
-            this.tokenBucket.pay(task.options.fee);
+            this.tokenBucket.clear();
             this.tasks.delete(task);
         }
 

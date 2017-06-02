@@ -4,20 +4,20 @@ export class TokenBucket {
     private income: number;
 
     /** The maximum amount of money we can save up. */
-    private bankLimit: number;
+    private bucketSize: number;
 
     /** The interval of the paydays */
     private interval: number;
 
     /** The current amount of money on the bank. */
-    private money: number = 9;
+    private money: number = 0;
 
     /** The Date of the last payday. */
     private lastPayed: Date = new Date();
 
     constructor(rateLimits: RateLimitOptions) {
         this.income = rateLimits.tokensPerInterval;
-        this.bankLimit = rateLimits.bucketSize;
+        this.bucketSize = rateLimits.bucketSize;
         this.interval = rateLimits.interval;
     }
 
@@ -27,7 +27,7 @@ export class TokenBucket {
 
     private earn() {
         if (!this.income) {
-            this.money = this.bankLimit;
+            this.money = this.bucketSize;
             return;
         }
 
@@ -35,16 +35,16 @@ export class TokenBucket {
         let workTime = now.getTime() - this.lastPayed.getTime();
         let salary = (this.hourlyWage / this.interval) * workTime;
 
-        this.money = Math.min(this.money + salary, this.bankLimit);
+        this.money = Math.min(this.money + salary, this.bucketSize);
         this.lastPayed = now;
     }
 
     pay(fee: number): boolean {
-        if (!this.bankLimit) {
+        if (!this.bucketSize) {
             return true;
         }
 
-        if (fee > this.bankLimit) {
+        if (fee > this.bucketSize) {
             throw new Error('cant never throttle this tho!');
         }
 
@@ -52,10 +52,6 @@ export class TokenBucket {
         this.earn();
 
         if (this.money < fee) {
-            /* let moneyNeeded = fee - this.money;
-             let saveUpTime = moneyNeeded * (1 / this.hourlyWage);
-             // this.listener.onCantAfford(fee, saveUpTime);
-             return saveUpTime;*/
             return false;
         }
 
@@ -65,5 +61,10 @@ export class TokenBucket {
 
     get tokens() {
         return this.money;
+    }
+
+    clear() {
+        this.money = 0;
+        this.lastPayed = new Date();
     }
 }
