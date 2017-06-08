@@ -1,7 +1,7 @@
 import { Channels } from '../channel/Channels';
 import { Task } from '../channel/Task';
 import { ChannelNotFoundError } from './ChannelNotFoundError';
-import { defaultThrottleOptions, ThrottleOptions } from './ThrottleOptions';
+import { DEFAULT_THROTTLE_OPTIONS, ThrottleOptions } from './ThrottleOptions';
 
 export function throttle(options: ThrottleOptions | string) {
     let optionsObject: ThrottleOptions;
@@ -10,7 +10,7 @@ export function throttle(options: ThrottleOptions | string) {
     } else {
         optionsObject = options;
     }
-    let mergedOptions = Object.assign(defaultThrottleOptions, optionsObject);
+    let mergedOptions = Object.assign(DEFAULT_THROTTLE_OPTIONS, optionsObject);
 
     return (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<(...args: any[]) => Promise<any>>) => {
         const originalMethod = descriptor.value;
