@@ -1,4 +1,4 @@
-import { ChannelRepository } from '../channel/ChannelRepository';
+import { Channels } from '../channel/Channels';
 import { Task } from '../channel/Task';
 import { ChannelNotFoundError } from './ChannelNotFoundError';
 import { defaultThrottleOptions, ThrottleOptions } from './ThrottleOptions';
@@ -16,7 +16,7 @@ export function throttle(options: ThrottleOptions | string) {
         const originalMethod = descriptor.value;
 
         descriptor.value = async function (...args: any[]) {
-            let channel = ChannelRepository.instance.channels.get(mergedOptions.channel);
+            let channel = Channels.channels.get(mergedOptions.channel);
             if (!channel) {
                 throw new ChannelNotFoundError(`Channel '${mergedOptions.channel}' not found!`);
             }

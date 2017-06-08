@@ -12,26 +12,6 @@ export class Channel {
         this._bucket = new TokenBucket(bucketOptions);
     }
 
-    static createSimple(requests: number, literal: string): Channel {
-        let interval: number;
-        if (literal === 'second') {
-            interval = 1000;
-        } else if (literal === 'minute') {
-            interval = 60000;
-        } else if (literal === 'hour') {
-            interval = 3600000;
-        } else if (literal === 'day') {
-            interval = 86400000;
-        }
-
-        return new Channel({
-            tokensPerInterval: requests,
-            interval,
-            bucketSize: requests,
-            tokens: requests
-        });
-    }
-
     async enqueueTask(task: Task) {
         let missingTokens: number;
         if (this.tasks.size === 0) {
