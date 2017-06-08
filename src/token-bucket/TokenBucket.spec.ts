@@ -33,7 +33,7 @@ describe('TokenBucket', function () {
     });
 
     it('should clamp against bucketSize', function() {
-        let overflow = (bucketOptions.bucketSize - bucketOptions.tokens + 1) / bucketOptions.tokensPerInterval * bucketOptions.interval
+        let overflow = (bucketOptions.bucketSize - bucketOptions.tokens + 1) / bucketOptions.tokensPerInterval * bucketOptions.interval;
         clock.tick(overflow);
         bucket.tokens.should.be.equals(bucketOptions.bucketSize);
     });
