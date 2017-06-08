@@ -1,4 +1,6 @@
+import { expect } from  'chai';
 import { TokenBucket } from './TokenBucket';
+import { TokenBucketExceededError } from './TokenBucketExceededError';
 import { useFakeTimers, SinonFakeTimers } from 'sinon';
 
 describe('TokenBucket', function () {
@@ -38,16 +40,22 @@ describe('TokenBucket', function () {
         bucket.tokens.should.be.equals(bucketOptions.bucketSize);
     });
 
-    it ('should take tokens from the bucket', function() {
+    it('should take tokens from the bucket', function() {
         // Just take half the tokens.
         let amount = bucketOptions.bucketSize / 2;
         bucket.take(amount).should.be.true;
         bucket.tokens.should.be.equals(amount);
     });
 
-    it ('should take no more tokens from the bucket than it have', function() {
+    it('should take no more tokens from the bucket than it have', function() {
         let before = bucket.tokens;
         bucket.take(bucketOptions.bucketSize).should.be.false;
         bucket.tokens.should.be.equals(before);
+    });
+
+    it('should throw exception on exeeding bucketSize', function() {
+        expect(function() {
+            bucket.take(bucketOptions.bucketSize + 1);
+        }).to.throw(TokenBucketExceededError);
     });
 });
