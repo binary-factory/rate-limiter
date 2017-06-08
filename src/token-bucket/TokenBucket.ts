@@ -35,7 +35,8 @@ export class TokenBucket {
     }
 
     private setOptions(options: TokenBucketOptions) {
-        this.reset();
+        this._tokens = 0;
+        this._lastDrip = new Date();
 
         this._options = options;
         if (this.options.tokens) {
@@ -95,14 +96,5 @@ export class TokenBucket {
 
     get timePerToken(): number {
         return this.options.tokensPerInterval / this.options.interval;
-    }
-
-    reset() {
-        this._tokens = 0;
-        this._lastDrip = new Date();
-    }
-
-    wipe() {
-        this.tokens = 0;
     }
 }

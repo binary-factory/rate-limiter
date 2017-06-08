@@ -40,13 +40,14 @@ export class Channel {
                 this.tasks.set(task, timer);
             });
 
-            this._bucket.wipe();
+            this._bucket.tokens = 0;
             this.tasks.delete(task);
         }
 
         return task.func();
     }
 
+    // TODO: Maybe do not expose. Setting tokens will be useless whether we have a queue. It will be set to zero after waiting time.
     get bucket(): TokenBucket {
         return this._bucket;
     }
