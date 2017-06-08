@@ -47,9 +47,9 @@ export class TokenBucket {
      * Drips tokens into the bucket since the last visit.
      */
     private drip() {
-        if (!this._options.tokensPerInterval) {
-            this._tokens = this._options.bucketSize;
-            return;
+        if (!(this._options.tokensPerInterval > 0)) {
+          this._tokens = this._options.bucketSize;
+          return;
         }
 
         let now = new Date();
@@ -81,6 +81,7 @@ export class TokenBucket {
     }
 
     get tokens(): number {
+        this.drip();
         return this._tokens;
     }
 
